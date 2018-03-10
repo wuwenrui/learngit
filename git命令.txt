@@ -5,7 +5,7 @@ cd gitrepository	进入目录
 pwd					显示当前目录
 git init			初始化git仓库
 git add readme.txt  将readme.txt文件添加至git仓库
-git commit -m "这里写提交文件的说明(最好写说明)"
+git commit -m "这里写提交文件的说明(最好写说明)"  提交至仓库
 git status          查看git的状态
 git diff readme.txt 查看readme.txt文件的改动内容
 git log   			从最近到最远的提交日志
@@ -30,3 +30,14 @@ git push origin master        每次本地提交后，有必要的话就可以�
 远程仓库的克隆
 git clone git@github.com:wuwenrui/gitskills.git
 Git支持多种协议，包括https，但通过ssh支持的原生git协议速度最快。
+分支的使用场景：
+你创建了一个属于你自己的分支，别人看不到，还继续在原来的分支上正常工作，而你在自己的分支上干活，想提交就提交，直到开发完毕后，再一次性合并到原来的分支上，这样，既安全，又不影响别人工作。
+git branch   :查看分支
+git branch <分支名字>  :创建分支
+git checkout <分支名字>  :切换分支
+git checkout -b <分支名字> :创建+切换分支
+git merge <分支名字>	   :合并某分支到当前分支
+git branch -d <分支名字>   :删除分支
+当git无法自动完成合并时，必须手动解决冲突，然后提交。
+git log --graph --pretty --abbrev-commit    :查看分支的合并情况
+git merge --no-ff -m "这是普通的分支合并策略" dev  :使用普通的分支合并策略合并dev分支的内容并提交，好处是可以看到曾经和谁做过合并，而不加--no-ff参数，使用普通的合并fast forward模式就看不出来曾经做过合并
