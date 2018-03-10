@@ -1,0 +1,66 @@
+1.启动android avd
+android avd
+2.安装rn
+npm install
+3.android运行
+react-native run-android
+4.ios运行
+react-native run-ios
+5.Terminal : 在sublime中打开终端并定位到当前目录，神器，mac下的快捷键为：command+shift+T
+6.安装模块
+npm install react-native-simple-router --save
+7.卸载模块
+npm uninstall react-native-simple-router
+8.清理 切换至android目录下运行
+gradle clean
+
+二、使用NativeBase基础库
+1.创建项目
+react-native init AwesomeNativeBase
+2.切换目录
+cd AwesomeNativeBase
+3.安装nativebase
+npm install native-base --save
+
+三、打包发布    http://www.cnblogs.com/TwoWaterLee/p/5441139.html
+1.你可以用keytool命令生成一个私有密钥。
+$ keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+
+2.打包资源
+curl -k "http://localhost:8081/index.android.bundle" > android/app/src/main/assets/index.android.bundle
+
+3.签名 打开app/build.gradle文件增加下列代码
+signingConfigs {
+        release {
+            storeFile file(‘/Users/longway/Documents/workspace/jinlusoft/AwesomeNativeBase/my-release-key.keystore’)
+            storePassword "880810"
+            keyAlias "my-key-alias"
+            keyPassword "880810"
+        }
+    }
+在buildTypes中增加属性
+signingConfig signingConfigs.release
+
+4.打开混淆属性
+def enableProguardInReleaseBuilds = true
+
+5.完成打包 
+在android文件夹下执行  gradle assembleRelease
+解决问题：
+1.设置界面找到 
+Dev Setting
+配置自己上自己电脑的ip地址 192.168.1.101:8081
+2.小米手机摇晃的时候不出现设置菜单 需要进入 设置——更多应用—— 找到 你的apk   权限管理- 最下面找到 显示悬浮窗 允许即可。
+
+
+RN热更新
+https://github.com/reactnativecn/react-native-pushy/blob/master/docs/guide.md
+
+1.发布安卓应用（需要修改build.gradle里的版本号后再上传）
+pushy uploadApk android/app/build/outputs/apk/app-release.apk
+2.发布新的热更新版本
+pushy bundle --platform  android
+3.绑定热更新与安卓版本
+pushy update --platform  android
+
+
