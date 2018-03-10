@@ -1,0 +1,29 @@
+git 只支持文本文件的管理，并不支持二进制文件的管理，例如图像。视频等
+建立git仓库
+mkdir gitrepository 创建仓库
+cd gitrepository	进入目录
+pwd					显示当前目录
+git init			初始化git仓库
+git add readme.txt  将readme.txt文件添加至git仓库
+git commit -m "这里写提交文件的说明(最好写说明)"
+git status          查看git的状态
+git diff readme.txt 查看readme.txt文件的改动内容
+git log   			从最近到最远的提交日志
+commit_id是git每次操作留下的版本号，我们可以用下面的命令恢复到指定的版本
+git reset --hard commit_id
+git reset --hard HEAD^  回退到上一个版本
+git reset --hard HEAD^100 回退到前100个版本
+git reflog    		查看命令历史
+git 的修改，每次修改，执行 git add 之后，都会提交到暂存区，然后commit会提交到分支，也可以多次修改之后，一次性add然后commit，这就是合并提交
+git checkout readme.txt		git add之前的东西想撤销的话：使用命令
+git add之后会把文件放在暂存区，但是这个时候想撤销，使用命令两步：
+git reset HEAD readme.txt  回到当前最新版本，然后
+git checkout -- readme.txt   丢弃工作区的修改
+cat readme.txt      可以查看文件
+git rm test.txt      删除test.txt文件，在没有提交之前是可以恢复的，分为两步
+git reset HEAD test.txt    找回以前的文件，   git checkout -- test.txt    ：恢复文件
+
+远程仓库
+git remote add origin git@github.com:wuwenrui/learngit.git    关联远程仓库
+git push -u origin master     第一次推送master分支的所有内容
+git push origin master        每次本地提交后，有必要的话就可以用此命令推送新修改
