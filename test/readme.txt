@@ -3,4 +3,4 @@ Git is haha free software.
 hehehe.
 dadada.
 new line.
-这是dev分支添加的内容
+这是dev分支添加bug的内容
