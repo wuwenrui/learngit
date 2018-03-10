@@ -41,3 +41,15 @@ git branch -d <分支名字>   :删除分支
 当git无法自动完成合并时，必须手动解决冲突，然后提交。
 git log --graph --pretty --abbrev-commit    :查看分支的合并情况
 git merge --no-ff -m "这是普通的分支合并策略" dev  :使用普通的分支合并策略合并dev分支的内容并提交，好处是可以看到曾经和谁做过合并，而不加--no-ff参数，使用普通的合并fast forward模式就看不出来曾经做过合并
+
+bug分支：手头正在dev分支做开发，但是突遇bug需要解决，所以应该先把手头的dev分支的工作进度保存，使用命令：
+git stash 
+然后切换回主分支，创建bug分支：git checkout -b issue1，然后在bug分支上进行修改，修改完成后，提交，切换回主分支master，在主分支上合并bug分支的内容，git merge --no-ff -m "merge bug issue1" issue1，随后删除bug分支：git branch -d issue1
+然后继续回到dev分支进行工作，需要先恢复工作现场，使用命令：
+git stash list     :查看保存的工作现场列表,恢复现场有两种
+1、git stash apply,恢复后还没删除stash内容，所以使用 git stash drop 进行删除
+2、git stash pop   恢复现场同时删除stash内容
+git stash apply stash001   恢复指定的工作现场
+如果删除分支不成功的话，我们可以使用命令
+git branch -D 分支名字   :强行删除分支
+
