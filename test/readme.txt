@@ -1,2 +1,2 @@
-Git is a good haha version control system.
-Git is free software.
+Git is a good haha heihei version control system.
+Git is haha free software.
