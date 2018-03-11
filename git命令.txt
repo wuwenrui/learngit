@@ -1,0 +1,92 @@
+git 只支持文本文件的管理，并不支持二进制文件的管理，例如图像。视频等
+建立git仓库
+mkdir gitrepository 创建仓库
+cd gitrepository	进入目录
+pwd					显示当前目录
+git init			初始化git仓库
+git add readme.txt  将readme.txt文件添加至git仓库
+git commit -m "这里写提交文件的说明(最好写说明)"  提交至仓库
+git status          查看git的状态
+git diff readme.txt 查看readme.txt文件的改动内容
+git log   			从最近到最远的提交日志
+commit_id是git每次操作留下的版本号，我们可以用下面的命令恢复到指定的版本
+git reset --hard commit_id
+git reset --hard HEAD^  回退到上一个版本
+git reset --hard HEAD^100 回退到前100个版本
+git reflog    		查看命令历史
+git 的修改，每次修改，执行 git add 之后，都会提交到暂存区，然后commit会提交到分支，也可以多次修改之后，一次性add然后commit，这就是合并提交
+git checkout readme.txt		git add之前的东西想撤销的话：使用命令
+git add之后会把文件放在暂存区，但是这个时候想撤销，使用命令两步：
+git reset HEAD readme.txt  回到当前最新版本，然后
+git checkout -- readme.txt   丢弃工作区的修改
+cat readme.txt      可以查看文件
+git rm test.txt      删除test.txt文件，在没有提交之前是可以恢复的，分为两步
+git reset HEAD test.txt    找回以前的文件，   git checkout -- test.txt    ：恢复文件
+
+
+创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key：
+ssh-keygen -t rsa -C "1024567671@qq.com"
+如果一切顺利的话，可以在用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。
+登陆GitHub，打开“Account settings”，“SSH Keys”页面
+
+远程仓库
+git remote add origin git@github.com:wuwenrui/learngit.git    关联远程仓库
+git push -u origin master     第一次推送master分支的所有内容
+git push origin master        每次本地提交后，有必要的话就可以用此命令推送新修改
+远程仓库的克隆
+git clone git@github.com:wuwenrui/gitskills.git
+Git支持多种协议，包括https，但通过ssh支持的原生git协议速度最快。
+分支的使用场景：
+你创建了一个属于你自己的分支，别人看不到，还继续在原来的分支上正常工作，而你在自己的分支上干活，想提交就提交，直到开发完毕后，再一次性合并到原来的分支上，这样，既安全，又不影响别人工作。
+git branch   :查看分支
+git branch <分支名字>  :创建分支
+git checkout <分支名字>  :切换分支
+git checkout -b <分支名字> :创建+切换分支
+git merge <分支名字>	   :合并某分支到当前分支
+git branch -d <分支名字>   :删除分支
+当git无法自动完成合并时，必须手动解决冲突，然后提交。
+git log --graph --pretty --abbrev-commit    :查看分支的合并情况
+git merge --no-ff -m "这是普通的分支合并策略" dev  :使用普通的分支合并策略合并dev分支的内容并提交，好处是可以看到曾经和谁做过合并，而不加--no-ff参数，使用普通的合并fast forward模式就看不出来曾经做过合并
+
+bug分支：手头正在dev分支做开发，但是突遇bug需要解决，所以应该先把手头的dev分支的工作进度保存，使用命令：
+git stash 
+然后切换回主分支，创建bug分支：git checkout -b issue1，然后在bug分支上进行修改，修改完成后，提交，切换回主分支master，在主分支上合并bug分支的内容，git merge --no-ff -m "merge bug issue1" issue1，随后删除bug分支：git branch -d issue1
+然后继续回到dev分支进行工作，需要先恢复工作现场，使用命令：
+git stash list     :查看保存的工作现场列表,恢复现场有两种
+1、git stash apply,恢复后还没删除stash内容，所以使用 git stash drop 进行删除
+2、git stash pop   恢复现场同时删除stash内容
+git stash apply stash001   恢复指定的工作现场
+如果删除分支不成功的话，我们可以使用命令
+git branch -D 分支名字   :强行删除分支
+
+多人协作
+1、首先，可以试图用git push origin branch-name推送自己的修改；
+
+2、如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
+
+3、如果合并有冲突，则解决冲突，并在本地提交；
+
+4、没有冲突或者解决掉冲突后，再用git push origin branch-name推送就能成功！
+git pull提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令
+git branch --set-upstream branch-name origin/branch-name
+
+git remote -v          :查看远程库信息
+git push origin branch-name   :本地推送到远程，，若推送失败，则抓取远程更新
+git pull                :抓取远程更新
+git checkout -b branch-name origin/branch-name   :在本地创建和远程分支对应的分支，名字保持一致
+git branch --set-upstream branch-name origin/branch-name  :在本地创建和远程分支的关联
+
+git tag 标签名字        :新建一个标签，默认为HEAD。也可以指定一个commit id
+git -a tagname -m "输入描述信息"   :新建一个标签并且说明
+git tag -s <tagname> -m "blablabla..."可以用PGP签名标签；
+git tag 				:查看所有标签
+
+git push origin tagname  :推送一个本地标签
+git push origin tags     :推送本地全部未推送过的标签
+git tag -d tagname       :删除一个本地标签
+git push origin :refs/tags/tagname  :删除一个远程标签
+
+删除远程库的关联
+git remote rm origin:	删除名为origin的远程库的关联
+git remote add github git@github.com:wuwenrui/learngit.git     :创建远程库名为github的关联
+git remote add gitee  git@gitee.com:wwrzyy/learngit.git        :创建远程库名为gitee的关联
