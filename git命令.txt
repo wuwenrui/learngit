@@ -75,3 +75,13 @@ git push origin branch-name   :本地推送到远程，，若推送失败，则�
 git pull                :抓取远程更新
 git checkout -b branch-name origin/branch-name   :在本地创建和远程分支对应的分支，名字保持一致
 git branch --set-upstream branch-name origin/branch-name  :在本地创建和远程分支的关联
+
+git tag 标签名字        :新建一个标签，默认为HEAD。也可以指定一个commit id
+git -a tagname -m "输入描述信息"   :新建一个标签并且说明
+git tag -s <tagname> -m "blablabla..."可以用PGP签名标签；
+git tag 				:查看所有标签
+
+git push origin tagname  :推送一个本地标签
+git push origin tags     :推送本地全部未推送过的标签
+git tag -d tagname       :删除一个本地标签
+git push origin :refs/tags/tagname  :删除一个远程标签
